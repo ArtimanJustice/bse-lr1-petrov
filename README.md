@@ -12,3 +12,17 @@
 - IDE: Visual Studio Code
 - VCS: Git + GitHub
 - AI-асистент: GitHub Copilot
+
+## Функції
+
+- Стиснення відео (MP4, MOV, WebM)
+- Стиснення зображень (JPEG, PNG, WebP)
+- Стиснення аудіо (MP3, WAV, FLAC)
+- Конвертація між форматами
+- Локальна обробка файлів (без сервера)
+
+## Запуск
+
+```bash
+python main.py
+```
