@@ -1,0 +1,36 @@
+sequenceDiagram
+    actor User as Користувач
+    participant App as LocalSquash
+    participant File as FileInfo
+    participant Settings as CompressionSettings
+    participant Compressor as Compressor
+    participant Result as CompressionResult
+
+    User->>App: Обрати файл для стиснення
+    App->>File: getFileSizeMb(path)
+    File-->>App: originalSizeMb
+
+    App->>File: detectFileType(path)
+    File-->>App: fileType
+
+    App->>Settings: getDefaultSettings()
+    Settings-->>App: compressionSettings
+
+    alt fileType == image
+        App->>Compressor: compressImage(inputPath, outputPath, quality)
+    else fileType == video
+        App->>Compressor: compressVideo(inputPath, outputPath, crf)
+    else fileType == audio
+        App->>Compressor: compressAudio(inputPath, outputPath, bitrate)
+    else unsupported file
+        App-->>User: Повідомлення про непідтримуваний формат
+    end
+
+    Compressor->>Result: create(originalSizeMb, compressedSizeMb, outputPath)
+    Result-->>Compressor: compressionResult
+
+    Compressor-->>App: compressionResult
+    App->>Compressor: calculateCompressionPercent(originalSizeMb, compressedSizeMb)
+    Compressor-->>App: compressionPercent
+
+    App-->>User: Показати результат стиснення

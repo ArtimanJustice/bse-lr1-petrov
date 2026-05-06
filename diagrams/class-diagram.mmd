@@ -1,0 +1,54 @@
+classDiagram
+    class FileInfo {
+        -String path
+        -String name
+        -String type
+        -float sizeMb
+        +getFileSizeMb(path: String) float
+        +detectFileType(path: String) String
+    }
+
+    class Compressor {
+        +compress(file: FileInfo, settings: CompressionSettings) CompressionResult
+        +calculateCompressionPercent(originalSize: float, compressedSize: float) float
+    }
+
+    class ImageCompressor {
+        -int quality
+        +compressImage(inputPath: String, outputPath: String, quality: int) CompressionResult
+    }
+
+    class VideoCompressor {
+        -int crf
+        +compressVideo(inputPath: String, outputPath: String, crf: int) CompressionResult
+    }
+
+    class AudioCompressor {
+        -String bitrate
+        +compressAudio(inputPath: String, outputPath: String, bitrate: String) CompressionResult
+    }
+
+    class CompressionSettings {
+        -int imageQuality
+        -int videoCrf
+        -String audioBitrate
+        +getDefaultSettings() CompressionSettings
+    }
+
+    class CompressionResult {
+        -float originalSizeMb
+        -float compressedSizeMb
+        -float compressionPercent
+        -String outputPath
+        +getSummary() String
+    }
+
+    Compressor --> FileInfo : uses
+    Compressor --> CompressionSettings : uses
+    Compressor --> CompressionResult : creates
+
+    Compressor <|-- ImageCompressor
+    Compressor <|-- VideoCompressor
+    Compressor <|-- AudioCompressor
+
+    CompressionResult --> FileInfo : describes result for

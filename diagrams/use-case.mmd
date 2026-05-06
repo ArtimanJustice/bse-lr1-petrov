@@ -1,0 +1,30 @@
+flowchart LR
+    User[Користувач]
+    FS[Файлова система]
+
+    subgraph System[Система LocalSquash]
+        UC1([Обрати файл])
+        UC2([Визначити тип файлу])
+        UC3([Стиснути зображення])
+        UC4([Стиснути відео])
+        UC5([Стиснути аудіо])
+        UC6([Обчислити розмір файлу])
+        UC7([Показати результат стиснення])
+        UC8([Зберегти стиснений файл])
+    end
+
+    User --> UC1
+    User --> UC3
+    User --> UC4
+    User --> UC5
+    User --> UC7
+
+    FS --> UC1
+    FS --> UC8
+
+    UC1 -. "<<include>>" .-> UC2
+    UC3 -. "<<include>>" .-> UC6
+    UC4 -. "<<include>>" .-> UC6
+    UC5 -. "<<include>>" .-> UC6
+    UC6 -. "<<include>>" .-> UC7
+    UC8 -. "<<extend>>" .-> UC7
