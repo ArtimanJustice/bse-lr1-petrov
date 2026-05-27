@@ -48,3 +48,34 @@
 - [Use Case Diagram](https://mermaid.ai/d/a5809cbb-a0a9-449e-893f-5a9c066f6218)
 - [Class Diagram](https://mermaid.ai/d/40c75808-1f61-48e8-9b14-9f99d25e1283)
 - [Sequence Diagram](https://mermaid.ai/d/096c2adf-b683-49ae-961a-b906cd992a31)
+
+## Лабораторна робота №3
+
+У межах лабораторної роботи №3 реалізовано програмний модуль системи **LocalSquash** на основі UML-діаграми класів з ЛР 2 та написано набір модульних тестів.
+
+Було виконано:
+
+- реалізацію модуля `compressor.py` (7 класів: `FileInfo`, `CompressionSettings`, `CompressionResult`, `Compressor`, `ImageCompressor`, `VideoCompressor`, `AudioCompressor`);
+- проєктування тест-кейсів із застосуванням технік EP та BVA;
+- написання 38 модульних тестів за патерном AAA (фреймворк **pytest**);
+- досягнення line coverage **100 %** (94 statements, 0 missing).
+
+### Запуск тестів
+
+```bash
+pip install pytest pytest-cov
+pytest test_compressor.py --cov=compressor --cov-report=html
+```
+
+### Результат
+
+```
+38 passed in 0.18s
+compressor.py   94   0   100%
+```
+
+### Матеріали лабораторної роботи №3
+
+- [Модуль compressor.py](compressor.py)
+- [Тести test_compressor.py](test_compressor.py)
+- Гілка: `feature/lab3`
