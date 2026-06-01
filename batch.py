@@ -1,32 +1,32 @@
-from compressor import ImageCompressor, VideoCompressor, AudioCompressor
+from compressor import AudioCompressor, ImageCompressor, VideoCompressor
 
-# import os  # TODO: maybe add file size check later
+# Коди типів медіа (замість магічних чисел)
+IMAGE = 1
+VIDEO = 2
+AUDIO = 3
 
 
-def proc(lst, t, q):
-    res = []
+def _compress_one(path, media_type, setting):
+    """Стискає один файл за типом медіа. Повертає CompressionResult або None."""
+    if media_type == IMAGE:
+        return ImageCompressor(setting).compress_image(path, path + ".out")
+    if media_type == VIDEO:
+        return VideoCompressor(setting).compress_video(path, path + ".out")
+    if media_type == AUDIO:
+        return AudioCompressor(setting).compress_audio(path, path + ".out")
+    return None
+
+
+def compress_files(paths, media_type, setting):
+    """Стискає список файлів і повертає підсумковий рядок зі статистикою."""
+    results = []
     total = 0
     saved = 0
-    for f in lst:
-        if t == 1:
-            c = ImageCompressor(q)
-            r = c.compress_image(f, f + ".out")
-        elif t == 2:
-            c = VideoCompressor(q)
-            r = c.compress_video(f, f + ".out")
-        elif t == 3:
-            c = AudioCompressor(q)
-            r = c.compress_audio(f, f + ".out")
-        else:
-            r = None
-        if r != None:
-            res.append(r)
-            total = total + r.original_size_mb
-            saved = saved + (r.original_size_mb - r.compressed_size_mb)
-            # old = r.original_size_mb * 0.5
-    if total > 0:
-        pct = saved / total * 100
-    else:
-        pct = 0
-    s = "Оброблено: " + str(len(res)) + " файлів, заощаджено " + str(round(pct, 1)) + "%"
-    return s
+    for path in paths:
+        result = _compress_one(path, media_type, setting)
+        if result is not None:
+            results.append(result)
+            total += result.original_size_mb
+            saved += result.original_size_mb - result.compressed_size_mb
+    percent = saved / total * 100 if total > 0 else 0
+    return f"Оброблено: {len(results)} файлів, заощаджено {round(percent, 1)}%"
