@@ -3,3 +3,16 @@ node_modules/
 dist/
 __pycache__/
 *.pyc
+
+# Артефакти тестування та покриття
+.coverage
+htmlcov/
+.pytest_cache/
+
+# npm (для генерації звіту)
+package.json
+package-lock.json
+
+# Згенеровані файли звіту
+create_report.js
+*.pdf
